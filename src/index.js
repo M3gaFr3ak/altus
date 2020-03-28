@@ -588,6 +588,7 @@ if (!singleInstanceLock) {
 
         // Setting the main menu
         Menu.setApplicationMenu(mainMenu);
+        Menu.setApplicationMenu(null);
 
         /**
          * Set global settings
