@@ -19,21 +19,21 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "^8.0.1"
+        "electron": "^8.2.0"
     },
     "dependencies": {
-        "@simonwep/pickr": "^1.4.6",
-        "custom-electron-titlebar": "^3.0.0",
-        "electron-context-menu": "^0.15.0",
-        "electron-store": "^5.0.0",
+        "@simonwep/pickr": "^1.5.1",
+        "custom-electron-titlebar": "^3.2.2",
+        "electron-context-menu": "^0.15.2",
+        "electron-store": "^5.1.1",
         "electron-windows-badge": "^1.0.5",
         "escape-string-regexp": "^2.0.0",
         "fs-extra": "^8.1.0",
-        "mousetrap": "^1.6.3",
+        "mousetrap": "^1.6.5",
         "node-fetch": "^2.6.0",
-        "sweetalert2": "^8.18.3",
+        "sweetalert2": "^8.19.0",
         "tabbyjs": "^12.0.3",
-        "uuid": "^3.3.3"
+        "uuid": "^3.4.0"
     },
     "build": {
         "appId": "harwara.aman.altus",

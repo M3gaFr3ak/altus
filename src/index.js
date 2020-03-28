@@ -111,6 +111,7 @@ fileMenuTemplate = [{
     label: 'Quit',
     accelerator: 'CmdOrCtrl+Q',
     click() {
+        app.isQuiting = true;
         app.quit();
     }
 }];
@@ -451,6 +452,7 @@ const singleInstanceLock = app.requestSingleInstanceLock();
 // Checks for single instance lock
 if (!singleInstanceLock) {
     // Quits the second instance
+    app.isQuiting = true;
     app.quit();
 } else {
     // Focus current instance
@@ -532,7 +534,7 @@ if (!singleInstanceLock) {
 
         // Shows window once ready
         mainWindow.once('ready-to-show', () => {
-            mainWindow.show();
+            //mainWindow.show();
         });
 
         // Load the main window HTML file
@@ -547,12 +549,23 @@ if (!singleInstanceLock) {
             // Store window bounds & maximize data
             windowState.set('bounds', mainWindow.getBounds());
             windowState.set('isMaximized', mainWindow.isMaximized());
-            // Checks if "app.showExitPrompt" variable is true
-            if (app.showExitPrompt) {
-                // Stops app from closing in usual manner
+
+
+            if (!app.isQuiting) {
                 e.preventDefault();
-                // Uses a new function to confirm and then closes the app
-                confirmExit();
+                mainWindow.hide();
+            } else {
+
+                // Checks if "app.showExitPrompt" variable is true
+                if (app.showExitPrompt) {
+                    // Stops app from closing in usual manner
+                    e.preventDefault();
+                    // Uses a new function to confirm and then closes the app
+                    confirmExit();
+                }
+                /*else {
+                                   app.quit();
+                               }*/
             }
         });
 
@@ -561,6 +574,7 @@ if (!singleInstanceLock) {
             // Gets rid of the main window object from memory
             mainWindow = null;
             // Quits app
+            app.isQuiting = true;
             app.quit();
         });
 
@@ -619,9 +633,13 @@ if (!singleInstanceLock) {
                         trayIcon.setToolTip('Altus');
                         // Set tray icon context menu
                         trayIcon.setContextMenu(trayContextMenu);
+                        trayIcon.addListener('click', (e) => {
+                            mainWindow.show();
+                        })
                     } else if (process.platform === 'darwin') {
                         // Set dock menu on MacOS
                         app.dock.setMenu(trayContextMenu);
+                        mainWindow.focus();
                     }
                 }
             } else {
@@ -706,6 +724,7 @@ if (!singleInstanceLock) {
 
     // Quits app if all windows are closed
     app.on('window-all-closed', () => {
+        app.isQuiting = true;
         app.quit();
     });
 }
@@ -722,6 +741,7 @@ function confirmExit() {
     }).then(res => {
         if (res.response == 0) {
             app.showExitPrompt = false;
+            app.isQuiting = true;
             app.quit();
             return;
         }
