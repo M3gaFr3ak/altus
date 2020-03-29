@@ -527,16 +527,16 @@ if (!singleInstanceLock) {
         });
 
         mainWindow.setBounds(windowState.get('bounds'));
+        /*
+                if (windowState.get('isMaximized')) {
+                    mainWindow.maximize();
+                }
 
-        if (windowState.get('isMaximized')) {
-            mainWindow.maximize();
-        }
-
-        // Shows window once ready
-        mainWindow.once('ready-to-show', () => {
-            //mainWindow.show();
-        });
-
+                // Shows window once ready
+                mainWindow.once('ready-to-show', () => {
+                    mainWindow.show();
+                });
+        */
         // Load the main window HTML file
         mainWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'windows', 'main', 'main.html'),
@@ -635,7 +635,9 @@ if (!singleInstanceLock) {
                         // Set tray icon context menu
                         trayIcon.setContextMenu(trayContextMenu);
                         trayIcon.addListener('click', (e) => {
+                            mainWindow.maximize();
                             mainWindow.show();
+                            mainWindow.focus();
                         })
                     } else if (process.platform === 'darwin') {
                         // Set dock menu on MacOS
